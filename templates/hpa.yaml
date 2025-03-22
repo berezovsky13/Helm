@@ -4,7 +4,7 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: {{ .Release.Name }}-nginx
   labels:
-    {{- include "multiple-deployment.labels" . | nindent 4 }}
+    {{- include "simple-chart.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -37,7 +37,7 @@ kind: HorizontalPodAutoscaler
 metadata:
   name: {{ .Release.Name }}-apache
   labels:
-    {{- include "multiple-deployment.labels" . | nindent 4 }}
+    {{- include "simple-chart.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
@@ -62,4 +62,4 @@ spec:
           type: Utilization
           averageUtilization: {{ .Values.apache.autoscaling.targetMemoryUtilizationPercentage }}
     {{- end }}
-{{- end }} 
+{{- end }}

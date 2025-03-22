@@ -1,11 +1,11 @@
 {{- if .Values.ingress.enabled -}}
-{{- $fullName := include "multiple-deployment.fullname" . -}}
+{{- $fullName := include "simple-chart.fullname" . -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ $fullName }}
   labels:
-    {{- include "multiple-deployment.labels" . | nindent 4 }}
+    {{- include "simple-chart.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -39,4 +39,4 @@ spec:
                   number: {{ if eq .service "nginx" }}{{ $.Values.nginx.service.port }}{{ else }}{{ $.Values.apache.service.port }}{{ end }}
           {{- end }}
     {{- end }}
-{{- end }} 
+{{- end }}

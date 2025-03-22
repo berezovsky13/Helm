@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ .Release.Name }}-test-nginx-connection"
+  name: "{{ include "simple-chart.fullname" . }}-test-nginx"
   labels:
-    {{- include "multiple-deployment.labels" . | nindent 4 }}
+    {{- include "simple-chart.labels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": test
 spec:
@@ -11,15 +11,15 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ .Release.Name }}-nginx:{{ .Values.nginx.service.port }}']
+      args: ['{{ include "simple-chart.fullname" . }}-nginx:{{ .Values.nginx.service.port }}']
   restartPolicy: Never
 ---
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "{{ .Release.Name }}-test-apache-connection"
+  name: "{{ include "simple-chart.fullname" . }}-test-apache"
   labels:
-    {{- include "multiple-deployment.labels" . | nindent 4 }}
+    {{- include "simple-chart.labels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": test
 spec:
@@ -27,5 +27,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ .Release.Name }}-apache:{{ .Values.apache.service.port }}']
+      args: ['{{ include "simple-chart.fullname" . }}-apache:{{ .Values.apache.service.port }}']
   restartPolicy: Never 
