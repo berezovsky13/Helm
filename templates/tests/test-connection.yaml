@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ .Release.Name }}-test-nginx-connection"
+  labels:
+    {{- include "multiple-deployment.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ .Release.Name }}-nginx:{{ .Values.nginx.service.port }}']
+  restartPolicy: Never
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ .Release.Name }}-test-apache-connection"
+  labels:
+    {{- include "multiple-deployment.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ .Release.Name }}-apache:{{ .Values.apache.service.port }}']
+  restartPolicy: Never 

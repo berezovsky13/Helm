@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-apache
+  labels:
+    app: {{ .Release.Name }}-apache
+spec:
+  replicas: {{ .Values.apache.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-apache
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-apache
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}-apache
+          image: "{{ .Values.apache.image.repository }}:{{ .Values.apache.image.tag }}"
+          imagePullPolicy: {{ .Values.apache.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.apache.container.port }}
+              protocol: TCP 
